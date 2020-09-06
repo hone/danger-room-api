@@ -1,10 +1,10 @@
 class Pack < ApplicationRecord
   enum type: {
-    core: "core",
-    hero: "hero",
-    scenario: "scenario",
-    campaign: "campaign",
-    print_n_play: "print-n-play"
+    core: "Core",
+    hero: "Hero",
+    scenario: "Scenario",
+    campaign: "Campaign",
+    print_n_play: "Print N Play"
   }
 
   has_many :identities
