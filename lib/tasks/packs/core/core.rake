@@ -1,10 +1,11 @@
+require_relative '../util'
+
 namespace :packs do
   desc "Insert Core Set"
   task :core => :environment do
-    ModularEncounterSetKlass = Struct.new(:name, :difficulty)
-    IdentityKlass = Struct.new(:alter_ego, :hero)
-
-    pack = Pack.create(name: "Core", pack_type: :core)
+    pack_name = "Core"
+    puts "Core: Core"
+    pack = Pack.create(name: pack_name, pack_type: :core)
 
     %w(Rhino Klaw Ultron).each {|name| pack.scenarios.create(name: name) }
 
