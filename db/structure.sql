@@ -10,20 +10,6 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
-
-
---
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
-
-
---
 -- Name: pack_type; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -38,7 +24,7 @@ CREATE TYPE public.pack_type AS ENUM (
 
 SET default_tablespace = '';
 
-SET default_with_oids = false;
+SET default_table_access_method = heap;
 
 --
 -- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -
@@ -60,7 +46,7 @@ CREATE TABLE public.identities (
     id bigint NOT NULL,
     alter_ego character varying NOT NULL,
     hero character varying NOT NULL,
-    features character varying[],
+    features character varying[] DEFAULT '{}'::character varying[],
     pack_id bigint NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
@@ -270,10 +256,24 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
+-- Name: index_identities_on_alter_ego; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_identities_on_alter_ego ON public.identities USING btree (alter_ego);
+
+
+--
 -- Name: index_identities_on_alter_ego_and_hero; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_identities_on_alter_ego_and_hero ON public.identities USING btree (alter_ego, hero);
+
+
+--
+-- Name: index_identities_on_hero; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_identities_on_hero ON public.identities USING btree (hero);
 
 
 --
